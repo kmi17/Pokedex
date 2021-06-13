@@ -19,11 +19,12 @@ public class PokemonService {
 
     Logger logger = LoggerFactory.getLogger(PokemonService.class);
 
-    public void createPokemonIndexBulk(final List<Pokemon> pokemons) {
+    // TODO: add bulk data
+    public void createPokemonBulk(final List<Pokemon> pokemons) {
         pokemonRepository.saveAll(pokemons);
     }
 
-    public void createProductIndex(final Pokemon pokemon) {
+    public void createPokemon(final Pokemon pokemon) {
         try {
             if(pokemonRepository.findById(pokemon.getId()).isEmpty()) {
                 pokemonRepository.save(pokemon);

@@ -34,7 +34,7 @@ public class PokeData {
 
             for (Result result : results) {
                 Pokemon pokemon = pokemonRESTService.getPokemon(result.getUrl());
-                pokemonService.createProductIndex(pokemon);
+                pokemonService.createPokemon(pokemon);
             }
             offset = offset + 20;
         }
