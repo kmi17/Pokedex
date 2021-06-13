@@ -44,12 +44,16 @@ public class Config {
 
     @Bean
     public RestHighLevelClient client() {
-
-        ClientConfiguration clientConfiguration
-                = ClientConfiguration.builder()
-                .connectedTo("localhost:9200")
-                .build();
-        return RestClients.create(clientConfiguration).rest();
+        try {
+            ClientConfiguration clientConfiguration
+                    = ClientConfiguration.builder()
+                    .connectedTo("localhost:9200")
+                    .build();
+            return RestClients.create(clientConfiguration).rest();
+        } catch (Exception e) {
+            logger.error(String.valueOf(e));
+        }
+        return null;
     }
 
     @Bean
@@ -67,11 +71,12 @@ public class Config {
             jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
             jedisConnectionFactory.getPoolConfig().setMaxTotal(50);
             jedisConnectionFactory.getPoolConfig().setMaxIdle(50);
+            return jedisConnectionFactory;
         } catch (RedisConnectionFailureException e) {
-            e.getMessage();
+            logger.error(String.valueOf(e));
         }
 
-        return jedisConnectionFactory;
+        return null;
     }
     @Bean
     public RedisTemplate<String, Pokemon> redisTemplate(){

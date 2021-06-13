@@ -18,10 +18,15 @@ public class PokemonRESTService {
             this.restTemplate = restTemplateBuilder.build();
         }
 
-        public int getCount() {
-            String url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=0";
-            APIResourceList pokemonResource = this.restTemplate.getForObject(url, APIResourceList.class);
-            return pokemonResource.getCount();
+        public Integer getCount() {
+            try {
+                String url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=0";
+                APIResourceList pokemonResource = this.restTemplate.getForObject(url, APIResourceList.class);
+                return pokemonResource.getCount();
+            } catch (Exception e) {
+                logger.error(String.valueOf(e));
+            }
+            return null;
         }
         public APIResourceList getPokemonPlainJSON(String url) {
             return this.restTemplate.getForObject(url, APIResourceList.class);

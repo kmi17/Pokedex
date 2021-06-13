@@ -30,7 +30,7 @@ public class PokemonService {
             }
 
         } catch(Exception e) {
-            e.printStackTrace();
+            logger.error(String.valueOf(e));
         }
 
     }
@@ -50,23 +50,30 @@ public class PokemonService {
         } catch (Exception e) {
             logger.error(String.valueOf(e));
         }
-        return null;
+        return Optional.empty();
     }
 
     public Iterable<Pokemon> getPokemonByPageAndOffset(Integer offset, Integer page, Integer limit) {
-        if (offset != null && page != null && limit != null) {
+        try {
+            if (offset != null && page != null && limit != null) {
                 Iterable<Pokemon> pokemon = pokemonRepository.findAll(OffsetLimitPageable.func(offset, page, limit));
-                return  pokemon;
+                return pokemon;
+            }
+        } catch (Exception e) {
+            logger.error(String.valueOf(e));
         }
         return null;
     }
 
     public void deletePokemon(Integer id) {
-        if (id !=  null)  {
-            pokemonRepository.deleteById(id);
-            pokemonRedisService.deletePokemon(String.valueOf(id));
+        try {
+            if (id !=  null)  {
+                pokemonRepository.deleteById(id);
+                pokemonRedisService.deletePokemon(String.valueOf(id));
+            }
+        } catch (Exception e) {
+            logger.error(String.valueOf(e));
         }
-
     }
 }
 

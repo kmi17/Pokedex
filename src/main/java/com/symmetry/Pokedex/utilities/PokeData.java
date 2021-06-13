@@ -23,7 +23,7 @@ public class PokeData {
     PokemonRESTService pokemonRESTService;
 
     public void indexPokemon() throws FileNotFoundException {
-        int pokemonCount = pokemonRESTService.getCount();
+        Integer pokemonCount = pokemonRESTService.getCount();
         APIResourceList pokemonList;
         int offset = 0;
         int limit = 20;
