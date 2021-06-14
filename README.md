@@ -24,6 +24,7 @@ The Pokedex Web Service has been implemented using `Spring Framework` which prov
 ```
 
 - elasticsearch and redis containers are loaded first, so it takes some time when you run it for the first time.
+- If you get "Compose file contains an invalid type, it should be an array" then upgrade your docker-compose.
 
 
 ## Application & Services URLs
