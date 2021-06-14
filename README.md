@@ -11,9 +11,9 @@ The Pokedex Web Service has been implemented using `Spring Framework` which prov
 
 ## Prerequisites
 
-- Java 11+
+- Java v11+
 - Docker
-- Docker-Compose
+- Docker-Compose v1.29
 
 ## Start Environment
 
