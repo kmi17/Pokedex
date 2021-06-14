@@ -1,6 +1,14 @@
+#
+# Build stage
+#
+FROM maven:3.6.0-jdk-11-slim AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package
+#
+# Package stage
+#
 FROM openjdk:11-jre-slim-buster
-VOLUME /pokedex-service
-ARG JAR_FILE=target/Pokedex-0.0.1-SNAPSHOT.jar
-ADD ${JAR_FILE} pokedex.jar
+COPY --from=build /home/app/target/Pokedex-0.0.1-SNAPSHOT.jar /usr/local/lib/pokedex.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-Dspring.profiles.active=docker","-jar","/pokedex.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=docker","-jar","/usr/local/lib/pokedex.jar"]
