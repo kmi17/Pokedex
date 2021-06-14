@@ -9,12 +9,18 @@ import com.symmetry.Pokedex.Service.PokemonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 @Service
 public class PokeData {
+    @Value("${pokeapi}")
+    public String pokeapiBaseURL;
+    public String getPokeapiBaseURL() {
+        return pokeapiBaseURL;
+    }
     Logger logger = LoggerFactory.getLogger(PokeData.class);
     @Autowired
     PokemonService pokemonService;
@@ -23,13 +29,12 @@ public class PokeData {
     PokemonRESTService pokemonRESTService;
 
     public void indexPokemon() throws FileNotFoundException {
-        Integer pokemonCount = pokemonRESTService.getCount();
+        Integer pokemonCount = pokemonRESTService.getCount(getPokeapiBaseURL() +"?offset=0&limit=0");
         APIResourceList pokemonList;
         int offset = 0;
         int limit = 20;
-        String url = "https://pokeapi.co/api/v2/pokemon";
         while (offset <= pokemonCount) {
-            pokemonList = pokemonRESTService.getPokemonPlainJSON(url+"?offset="+offset+"&"+"limit="+limit);
+            pokemonList = pokemonRESTService.getPokemonPlainJSON(getPokeapiBaseURL()+"?offset="+offset+"&"+"limit="+limit);
             List<Result> results = pokemonList.getResults();
 
             for (Result result : results) {

@@ -18,9 +18,8 @@ public class PokemonRESTService {
             this.restTemplate = restTemplateBuilder.build();
         }
 
-        public Integer getCount() {
+        public Integer getCount(String url) {
             try {
-                String url = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=0";
                 APIResourceList pokemonResource = this.restTemplate.getForObject(url, APIResourceList.class);
                 return pokemonResource.getCount();
             } catch (Exception e) {

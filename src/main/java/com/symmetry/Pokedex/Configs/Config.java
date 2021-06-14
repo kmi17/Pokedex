@@ -29,17 +29,25 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class Config {
     Logger logger = LoggerFactory.getLogger(Config.class);
     @Value("${elasticsearch.host}")
-    public String host;
+    public String esHost;
     @Value("${elasticsearch.port}")
-    public int port;
+    public int esPort;
+    @Value("${redis.host}")
+    public String redisHost;
+    @Value("${redis.port}")
+    public int redisPort;
 
-    public String getHost() {
-        return host;
+    public String getEsHost() {
+        return esHost;
     }
-
-
-    public int getPort() {
-        return port;
+    public int getEsPort() {
+        return esPort;
+    }
+    public String getRedisHost() {
+        return redisHost;
+    }
+    public int getRedisPort() {
+        return redisPort;
     }
 
     @Bean
@@ -47,7 +55,7 @@ public class Config {
         try {
             ClientConfiguration clientConfiguration
                     = ClientConfiguration.builder()
-                    .connectedTo("localhost:9200")
+                    .connectedTo(getEsHost()+":"+getEsPort())
                     .build();
             return RestClients.create(clientConfiguration).rest();
         } catch (Exception e) {
@@ -66,8 +74,8 @@ public class Config {
         JedisConnectionFactory jedisConnectionFactory = null;
 
         try {
-            RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost",
-                    6379);
+            RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(getRedisHost(),
+                    getRedisPort());
             jedisConnectionFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
             jedisConnectionFactory.getPoolConfig().setMaxTotal(50);
             jedisConnectionFactory.getPoolConfig().setMaxIdle(50);
