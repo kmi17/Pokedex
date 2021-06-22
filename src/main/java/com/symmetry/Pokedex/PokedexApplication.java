@@ -18,8 +18,9 @@ public class PokedexApplication {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		ApplicationContext applicationContext = SpringApplication.run(PokedexApplication.class, args);
+		// initialization of the data
 		PokeData readerService = applicationContext.getBean(PokeData.class);
-		readerService.indexPokemon();
+		readerService.savePokemonData();
 	}
 
 

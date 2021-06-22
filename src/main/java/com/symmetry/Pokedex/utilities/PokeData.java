@@ -1,10 +1,9 @@
 package com.symmetry.Pokedex.utilities;
 
-import com.symmetry.Pokedex.Configs.Config;
 import com.symmetry.Pokedex.Entities.Pokemon;
 import com.symmetry.Pokedex.Models.APIResourceList;
 import com.symmetry.Pokedex.Models.Result;
-import com.symmetry.Pokedex.Service.PokemonRESTService;
+import com.symmetry.Pokedex.Service.PokeAPIRESTService;
 import com.symmetry.Pokedex.Service.PokemonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,19 +25,19 @@ public class PokeData {
     PokemonService pokemonService;
 
     @Autowired
-    PokemonRESTService pokemonRESTService;
+    PokeAPIRESTService pokeAPIRESTService;
 
-    public void indexPokemon() throws FileNotFoundException {
-        Integer pokemonCount = pokemonRESTService.getCount(getPokeapiBaseURL() +"?offset=0&limit=0");
+    public void savePokemonData() throws FileNotFoundException {
+        Integer pokemonCount = pokeAPIRESTService.getTotalPokemon(getPokeapiBaseURL() +"?offset=0&limit=0");
         APIResourceList pokemonList;
         int offset = 0;
         int limit = 20;
         while (offset <= pokemonCount) {
-            pokemonList = pokemonRESTService.getPokemonPlainJSON(getPokeapiBaseURL()+"?offset="+offset+"&"+"limit="+limit);
+            pokemonList = pokeAPIRESTService.getPokemonPlainJSON(getPokeapiBaseURL()+"?offset="+offset+"&"+"limit="+limit);
             List<Result> results = pokemonList.getResults();
 
             for (Result result : results) {
-                Pokemon pokemon = pokemonRESTService.getPokemon(result.getUrl());
+                Pokemon pokemon = pokeAPIRESTService.getPokemon(result.getUrl());
                 pokemonService.createPokemon(pokemon);
             }
             offset = offset + 20;

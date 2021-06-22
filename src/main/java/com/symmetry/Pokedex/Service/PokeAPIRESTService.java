@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class PokemonRESTService {
+public class PokeAPIRESTService {
         Logger logger = LoggerFactory.getLogger(PokeData.class);
         private final RestTemplate restTemplate;
 
-        public PokemonRESTService(RestTemplateBuilder restTemplateBuilder) {
+        public PokeAPIRESTService(RestTemplateBuilder restTemplateBuilder) {
             this.restTemplate = restTemplateBuilder.build();
         }
 
-        public Integer getCount(String url) {
+        public Integer getTotalPokemon(String url) {
             try {
                 APIResourceList pokemonResource = this.restTemplate.getForObject(url, APIResourceList.class);
                 return pokemonResource.getCount();
